@@ -32,6 +32,6 @@ cc -std=c89 copyio.c
 ./a.out < ../../../Mary.txt
 ```
 
-[!WARNING]
-The code in this repository is released as is, without any guarantee that it is
-correct or useful for anything.
+> [!WARNING]
+> The code in this repository is released as is, without any guarantee that it
+> is correct or useful for anything.
