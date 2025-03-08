@@ -24,5 +24,14 @@ to print its famous output:
 hello, world
 ```
 
+You can use `Mary.txt` to test code that requires character input:
+
+```
+cd 1/1.5/1.5.1
+cc -std=c89 copyio.c
+./a.out < ../../../Mary.txt
+```
+
+[!WARNING]
 The code in this repository is released as is, without any guarantee that it is
 correct or useful for anything.
