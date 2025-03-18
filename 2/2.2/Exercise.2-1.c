@@ -7,7 +7,8 @@
 #include <limits.h>
 #include <float.h>
 
-unsigned long power (int base, int n);
+unsigned long power (int base, unsigned int n);
+long double powerf (double base, unsigned int n);
 
 int main()
 {
@@ -27,6 +28,16 @@ int main()
   printf("float: %e %e\n", FLT_MIN, FLT_MAX);
   printf("double: %e %e\n", DBL_MIN, DBL_MAX);
   printf("long: %Le %Le\n", LDBL_MIN, LDBL_MAX);
+  printf("flt_radix: %d\n", FLT_RADIX);
+  printf("flt_min_exp: %d\n", FLT_MIN_EXP);
+  printf("flt_max_exp: %d\n", FLT_MAX_EXP);
+  printf("flt_mant_dig: %d\n", FLT_MANT_DIG);
+  printf("dbl_min_exp: %d\n", DBL_MIN_EXP);
+  printf("dbl_max_exp: %d\n", DBL_MAX_EXP);
+  printf("dbl_mant_dig: %d\n", DBL_MANT_DIG);
+  printf("ldbl_min_exp: %d\n", LDBL_MIN_EXP);
+  printf("ldbl_max_exp: %d\n", LDBL_MAX_EXP);
+  printf("ldbl_mant_dig: %d\n", LDBL_MANT_DIG);
 
   /* ranges by calculation: */
   /* integer bits */
@@ -75,16 +86,44 @@ int main()
   int dbl_bit = sizeof (double) * CHAR_BIT;
   int ldbl_bit = sizeof (double) * CHAR_BIT;
 
-  /* TODO: calculate floats! */
+  /* max and min floats */
+  /* float min: FLT_RADIX^(FLT_MIN_EXP - 1) */
+  /* float max: (FLT_RADIX^FLT_MANT_DIG - 1) * FLT_RADIX^(FLT_MAX_EXP - FLT_MANT_DIG) */
+  long double flt_min = powerf(1.0 / FLT_RADIX, -FLT_MIN_EXP + 1);
+  long double flt_max = (powerf(2.0, FLT_MANT_DIG) - 1) *
+                         powerf(2.0, FLT_MAX_EXP - FLT_MANT_DIG);
+  long double dbl_min = powerf(1.0 / FLT_RADIX, -DBL_MIN_EXP + 1);
+  long double dbl_max = (powerf(2.0, DBL_MANT_DIG) - 1) *
+                         powerf(2.0, DBL_MAX_EXP - DBL_MANT_DIG);
+  long double ldbl_min = powerf(1.0 / FLT_RADIX, -LDBL_MIN_EXP + 1);
+  long double ldbl_max = (powerf(2.0, LDBL_MANT_DIG) - 1) *
+                         powerf(2.0, LDBL_MAX_EXP - DBL_MANT_DIG);
+
+  /* floats by calculation */
   printf("\nFloats (c)\n===========\n");
   printf("flt_bit: %d bits\n", flt_bit);
   printf("dbl_bit: %d bits\n", dbl_bit);
-  printf("ldbl_bit: %d bits\n", ldbl_bit);
+  printf("ldbl_bit: %d bits\n\n", ldbl_bit);
+  printf("float: %Le, %Le\n", flt_min, flt_max);
+  printf("double: %Le, %Le\n", dbl_min, dbl_max);
+  printf("long: %Le, %Le\n", ldbl_min, ldbl_max);
 }
 
-unsigned long power (int base, int n)
+/* n must be positive */
+unsigned long power (int base, unsigned int n)
 {
   unsigned long p = 1;
+
+  for (; 0 < n; --n)
+    p = p * base;
+
+  return p;
+}
+
+/* n must be positive */
+long double powerf (double base, unsigned int n)
+{
+  long double p = 1.0;
 
   for (; 0 < n; --n)
     p = p * base;
