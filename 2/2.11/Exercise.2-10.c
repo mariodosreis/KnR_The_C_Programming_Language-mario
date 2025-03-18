@@ -1,4 +1,4 @@
-/* Exercise 2-10. Rewrite the function l o w e r, which converts upper case letters
+/* Exercise 2-10. Rewrite the function lower, which converts upper case letters
 to lower case, with a conditional expression instead of if-else. */
 
 #include <stdio.h>
