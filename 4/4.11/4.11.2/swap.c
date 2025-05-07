@@ -2,7 +2,9 @@
  * of type t. (Block structure will help.) */
 #include <stdio.h>
 
+/* not safe: what happens if x or y are called tmp? */
 #define swap(t,x,y) { t tmp; tmp = x; x = y; y = tmp; }
+#define SWAP(t,x,y) { t tmp_ ## x; tmp_ ## x = x; x = y; y = tmp_ ## x; }
 
 main()
 {
@@ -15,6 +17,13 @@ main()
   printf("z = %.2f, w = %.2f\n", z, w);
   swap(double, z, w);
   printf("z = %.2f, w = %.2f\n", z, w);
+
+  char tmp = 'a', b = 'b';
+  printf("tmp = %c, b = %c\n", tmp, b);
+  swap(char, tmp, b); /* WRONG */
+  printf("tmp = %c, b = %c\n", tmp, b);
+  SWAP(char, tmp, b); /* Correct */
+  printf("tmp = %c, b = %c\n", tmp, b);
 
   return 0;
 }
