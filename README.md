@@ -34,12 +34,13 @@ cc -std=c89 copyio.c
 ```
 
 Note some functions defined in the book, such as `getline`, were introduced into
-the C standard later than the ANSI standard. If you use the definitions in the
-book of those functions in your code, and you try to compile with `cc -ansi`,
-you will get an error due to conflicting function declarations. You can solve
-this either by renaming the functions (i.e., here we use `getline2` and so on),
-or, if you want to strictly adhere to the original code in the book, by
-compiling with `-D_ANSI_SOURCE`, e.g.:
+the C standard later than the ANSI standard. Despite this, those functions are
+still included (in `stdin.h`, etc.) even when you compile with `-ansi`. Thus, if
+you use the definitions in the book of those functions in your code, and you try
+to compile with `cc -ansi`, you will get an error due to conflicting function
+declarations. You can solve this either by renaming the functions (i.e., use
+`getline2` and so on), or, if you want to strictly adhere to the original code
+in the book, by compiling with `-D_ANSI_SOURCE`, e.g.:
 
 ```
 cc -ansi -D_ANSI_SOURCE foo.c
